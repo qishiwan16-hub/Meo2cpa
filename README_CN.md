@@ -70,6 +70,54 @@ GLM CODING PLAN 是专为AI编码打造的订阅套餐，每月最低仅需20元
 
 ## 新手入门
 
+### 本地源码运行
+
+1. 复制示例配置文件：
+   ```bash
+   copy config.example.yaml config.yaml
+   ```
+2. 按需编辑 [`config.yaml`](config.yaml)，至少配置一个可用的上游账号或 API Key。
+3. 启动服务：
+   ```bash
+   go run ./cmd/server
+   ```
+4. 默认启动后可访问：
+   - API 服务：`http://127.0.0.1:8317`
+   - 管理首页：`http://127.0.0.1:8317/`
+
+### 构建二进制运行
+
+```bash
+go build -o meo2cpa ./cmd/server
+./meo2cpa --config config.yaml
+```
+
+### Docker 运行
+
+1. 复制配置文件：
+   ```bash
+   copy config.example.yaml config.yaml
+   ```
+2. 使用 [`docker-compose.yml`](docker-compose.yml) 启动：
+   ```bash
+   docker compose up -d --build
+   ```
+
+### Termux 运行
+
+Termux 环境可直接参考 [`docs/termux-deploy.md`](docs/termux-deploy.md)；常用启动命令：
+
+```bash
+bash ./scripts/termux-start.sh
+```
+
+### 更多文档
+
+- 示例配置：[`config.example.yaml`](config.example.yaml)
+- Docker 编排：[`docker-compose.yml`](docker-compose.yml)
+- Termux 部署：[`docs/termux-deploy.md`](docs/termux-deploy.md)
+- SDK 文档：[`docs/sdk-usage_CN.md`](docs/sdk-usage_CN.md)
+
 Meo2cpa 用户手册： [https://help.router-for.me/](https://help.router-for.me/cn/)
 
 ## 管理 API 文档
