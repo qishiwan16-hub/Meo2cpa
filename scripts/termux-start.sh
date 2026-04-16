@@ -12,34 +12,19 @@ TMP_PATH="${MEO2CPA_TMP_PATH:-${ROOT_DIR}/tmp}"
 PID_FILE="${RUN_PATH}/meo2cpa.pid"
 STDOUT_LOG="${LOG_PATH}/meo2cpa.out.log"
 STDERR_LOG="${LOG_PATH}/meo2cpa.err.log"
-AUTO_BUILD="${MEO2CPA_AUTO_BUILD:-1}"
-AUTO_BOOTSTRAP="${MEO2CPA_AUTO_BOOTSTRAP:-1}"
 
 mkdir -p "${AUTH_PATH}" "${LOG_PATH}" "${RUN_PATH}" "${PANEL_PATH}" "${TMP_PATH}"
 
-if [[ "${AUTO_BOOTSTRAP}" == "1" ]]; then
-  bash "${ROOT_DIR}/scripts/termux-bootstrap.sh" >/dev/null
-fi
-
 if [[ ! -f "${CONFIG_PATH}" ]]; then
-  if [[ -f "${ROOT_DIR}/config.example.yaml" ]]; then
-    cp "${ROOT_DIR}/config.example.yaml" "${CONFIG_PATH}"
-    echo "Config initialized from template: ${CONFIG_PATH}"
-  else
-    echo "Config template not found: ${ROOT_DIR}/config.example.yaml" >&2
-    exit 1
-  fi
+  echo "Config not found: ${CONFIG_PATH}" >&2
+  echo "Run bash ./scripts/termux-bootstrap.sh first." >&2
+  exit 1
 fi
 
 if [[ ! -x "${BIN_PATH}" ]]; then
-  if [[ "${AUTO_BUILD}" == "1" ]]; then
-    echo "Binary not found, running build automatically..."
-    bash "${ROOT_DIR}/scripts/termux-build.sh"
-  else
-    echo "Binary not found: ${BIN_PATH}" >&2
-    echo "Run bash ./scripts/termux-build.sh first." >&2
-    exit 1
-  fi
+  echo "Binary not found: ${BIN_PATH}" >&2
+  echo "Run bash ./scripts/termux-bootstrap.sh first." >&2
+  exit 1
 fi
 
 if [[ -f "${PID_FILE}" ]]; then

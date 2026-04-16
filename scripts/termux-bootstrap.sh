@@ -14,25 +14,34 @@ TMP_PATH="${MEO2CPA_TMP_PATH:-${ROOT_DIR}/tmp}"
 
 mkdir -p "${AUTH_PATH}" "${LOG_PATH}" "${RUN_PATH}" "${PANEL_PATH}" "${STATE_PATH}" "${TMP_PATH}" "$(dirname "${BIN_PATH}")"
 
+if command -v pkg >/dev/null 2>&1; then
+  yes | pkg update >/dev/null 2>&1 || true
+  yes | pkg upgrade >/dev/null 2>&1 || true
+  pkg install -y golang git curl jq termux-api termux-services >/dev/null 2>&1 || true
+fi
+
 if [[ ! -f "${CONFIG_PATH}" && -f "${ROOT_DIR}/config.example.yaml" ]]; then
   cp "${ROOT_DIR}/config.example.yaml" "${CONFIG_PATH}"
 fi
 
-cat <<EOF
-MEO2CPA_ROOT=${ROOT_DIR}
-MEO2CPA_CONFIG_PATH=${CONFIG_PATH}
-MEO2CPA_AUTH_PATH=${AUTH_PATH}
-MEO2CPA_LOG_PATH=${LOG_PATH}
-MEO2CPA_RUN_PATH=${RUN_PATH}
-MEO2CPA_BIN_PATH=${BIN_PATH}
-MEO2CPA_PANEL_PATH=${PANEL_PATH}
-MEO2CPA_STATE_PATH=${STATE_PATH}
-MEO2CPA_TMP_PATH=${TMP_PATH}
-PREFIX=${PREFIX_DIR}
+if [[ ! -x "${BIN_PATH}" ]]; then
+  bash "${ROOT_DIR}/scripts/termux-build.sh"
+fi
 
-Suggested next steps:
-  1. pkg update && pkg upgrade
-  2. pkg install golang git curl jq termux-api termux-services
-  3. bash ./scripts/termux-start.sh
-  4. bash ./scripts/termux-status.sh
+cat <<EOF
+Meo2cpa install completed.
+
+root: ${ROOT_DIR}
+config: ${CONFIG_PATH}
+bin: ${BIN_PATH}
+auths: ${AUTH_PATH}
+logs: ${LOG_PATH}
+run: ${RUN_PATH}
+panel: ${PANEL_PATH}
+state: ${STATE_PATH}
+tmp: ${TMP_PATH}
+prefix: ${PREFIX_DIR}
+
+Next step:
+  bash ./scripts/termux-start.sh
 EOF
