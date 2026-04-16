@@ -1,6 +1,8 @@
-# CLI 代理 API
+# Meo2cpa
 
 [English](README.md) | 中文 | [日本語](README_JA.md)
+
+项目地址：https://github.com/qishiwan16-hub/cpa
 
 一个为 CLI 提供 OpenAI/Gemini/Claude/Codex 兼容 API 接口的代理服务器。
 
@@ -68,7 +70,7 @@ GLM CODING PLAN 是专为AI编码打造的订阅套餐，每月最低仅需20元
 
 ## 新手入门
 
-CLIProxyAPI 用户手册： [https://help.router-for.me/](https://help.router-for.me/cn/)
+Meo2cpa 用户手册： [https://help.router-for.me/](https://help.router-for.me/cn/)
 
 ## 管理 API 文档
 
@@ -76,7 +78,7 @@ CLIProxyAPI 用户手册： [https://help.router-for.me/](https://help.router-fo
 
 ## Amp CLI 支持
 
-CLIProxyAPI 已内置对 [Amp CLI](https://ampcode.com) 和 Amp IDE 扩展的支持，可让你使用自己的 Google/ChatGPT/Claude OAuth 订阅来配合 Amp 编码工具：
+Meo2cpa 已内置对 [Amp CLI](https://ampcode.com) 和 Amp IDE 扩展的支持，可让你使用自己的 Google/ChatGPT/Claude OAuth 订阅来配合 Amp 编码工具：
 
 - 提供商路由别名，兼容 Amp 的 API 路径模式（`/api/provider/{provider}/v1...`）
 - 管理代理，处理 OAuth 认证和账号功能
@@ -113,7 +115,7 @@ CLIProxyAPI 已内置对 [Amp CLI](https://ampcode.com) 和 Amp IDE 扩展的支
 
 ## 谁与我们在一起？
 
-这些项目基于 CLIProxyAPI:
+这些项目基于 Meo2cpa:
 
 ### [vibeproxy](https://github.com/automazeio/vibeproxy)
 
@@ -180,11 +182,11 @@ Shadow AI 是一款专为受限环境设计的 AI 辅助工具。提供无窗口
 上手即用的面向 CLIProxyAPI 跨平台配额查询工具，支持按账号展示 codex 5h/7d 配额窗口、按计划排序、状态着色及多账号汇总分析。
 
 > [!NOTE]  
-> 如果你开发了基于 CLIProxyAPI 的项目，请提交一个 PR（拉取请求）将其添加到此列表中。
+> 如果你开发了基于 Meo2cpa 的项目，请提交一个 PR（拉取请求）将其添加到此列表中。
 
 ## 更多选择
 
-以下项目是 CLIProxyAPI 的移植版或受其启发：
+以下项目是 Meo2cpa 的移植版或受其启发：
 
 ### [9Router](https://github.com/decolua/9router)
 
@@ -197,7 +199,7 @@ Shadow AI 是一款专为受限环境设计的 AI 辅助工具。提供无窗口
 OmniRoute 是一个面向多供应商大语言模型的 AI 网关：它提供兼容 OpenAI 的端点，具备智能路由、负载均衡、重试及回退机制。通过添加策略、速率限制、缓存和可观测性，确保推理过程既可靠又具备成本意识。
 
 > [!NOTE]  
-> 如果你开发了 CLIProxyAPI 的移植或衍生项目，请提交 PR 将其添加到此列表中。
+> 如果你开发了 Meo2cpa 的移植或衍生项目，请提交 PR 将其添加到此列表中。
 
 ## 许可证
 

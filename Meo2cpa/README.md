@@ -1,6 +1,8 @@
-# CLI Proxy API
+# Meo2cpa
 
 English | [中文](README_CN.md) | [日本語](README_JA.md)
+
+GitHub Repository: https://github.com/qishiwan16-hub/cpa
 
 A proxy server that provides OpenAI/Gemini/Claude/Codex compatible API interfaces for CLI.
 
@@ -68,7 +70,7 @@ Get 10% OFF GLM CODING PLAN：https://z.ai/subscribe?ic=8JVLJQFSKB
 
 ## Getting Started
 
-CLIProxyAPI Guides: [https://help.router-for.me/](https://help.router-for.me/)
+Meo2cpa Guides: [https://help.router-for.me/](https://help.router-for.me/)
 
 ## Management API
 
@@ -76,7 +78,7 @@ see [MANAGEMENT_API.md](https://help.router-for.me/management/api)
 
 ## Amp CLI Support
 
-CLIProxyAPI includes integrated support for [Amp CLI](https://ampcode.com) and Amp IDE extensions, enabling you to use your Google/ChatGPT/Claude OAuth subscriptions with Amp's coding tools:
+Meo2cpa includes integrated support for [Amp CLI](https://ampcode.com) and Amp IDE extensions, enabling you to use your Google/ChatGPT/Claude OAuth subscriptions with Amp's coding tools:
 
 - Provider route aliases for Amp's API patterns (`/api/provider/{provider}/v1...`)
 - Management proxy for OAuth authentication and account features
@@ -114,7 +116,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Who is with us?
 
-Those projects are based on CLIProxyAPI:
+Those projects are based on Meo2cpa:
 
 ### [vibeproxy](https://github.com/automazeio/vibeproxy)
 
@@ -184,11 +186,11 @@ Cross-platform desktop app (macOS, Windows, Linux) wrapping CLIProxyAPI with a n
 Ready-to-use cross-platform quota inspector for CLIProxyAPI, supporting per-account codex 5h/7d quota windows, plan-based sorting, status coloring, and multi-account summary analytics.
 
 > [!NOTE]  
-> If you developed a project based on CLIProxyAPI, please open a PR to add it to this list.
+> If you developed a project based on Meo2cpa, please open a PR to add it to this list.
 
 ## More choices
 
-Those projects are ports of CLIProxyAPI or inspired by it:
+Those projects are ports of Meo2cpa or inspired by it:
 
 ### [9Router](https://github.com/decolua/9router)
 
@@ -201,7 +203,7 @@ Never stop coding. Smart routing to FREE & low-cost AI models with automatic fal
 OmniRoute is an AI gateway for multi-provider LLMs: an OpenAI-compatible endpoint with smart routing, load balancing, retries, and fallbacks. Add policies, rate limits, caching, and observability for reliable, cost-aware inference.
 
 > [!NOTE]  
-> If you have developed a port of CLIProxyAPI or a project inspired by it, please open a PR to add it to this list.
+> If you have developed a port of Meo2cpa or a project inspired by it, please open a PR to add it to this list.
 
 ## License
 
