@@ -2,7 +2,7 @@
 
 [English](README.md) | [中文](README_CN.md) | 日本語
 
-リポジトリURL：https://github.com/qishiwan16-hub/cpa
+リポジトリURL：https://github.com/qishiwan16-hub/Meo2cpa
 
 CLI向けのOpenAI/Gemini/Claude/Codex互換APIインターフェースを提供するプロキシサーバーです。
 

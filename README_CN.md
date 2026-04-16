@@ -2,7 +2,7 @@
 
 [English](README.md) | 中文 | [日本語](README_JA.md)
 
-项目地址：https://github.com/qishiwan16-hub/cpa
+项目地址：https://github.com/qishiwan16-hub/Meo2cpa
 
 一个为 CLI 提供 OpenAI/Gemini/Claude/Codex 兼容 API 接口的代理服务器。
 

@@ -1,237 +1,210 @@
-# cpa 安装教程
+# Meo2cpa
 
-## 项目简介
+English | [中文](README_CN.md) | [日本語](README_JA.md)
 
-[`cpa`](Meo2cpa/README.md) 是当前工作区中的项目根目录说明文档入口，实际服务端项目代码位于 [`Meo2cpa/`](Meo2cpa/)。
+GitHub Repository: https://github.com/qishiwan16-hub/Meo2cpa
 
-项目仓库地址：`https://github.com/qishiwan16-hub/cpa`
+A proxy server that provides OpenAI/Gemini/Claude/Codex compatible API interfaces for CLI.
 
-如果你要运行服务，核心入口程序是 [`Meo2cpa/cmd/server/main.go`](Meo2cpa/cmd/server/main.go)，默认配置模板是 [`Meo2cpa/config.example.yaml`](Meo2cpa/config.example.yaml)。
+It now also supports OpenAI Codex (GPT models) and Claude Code via OAuth.
 
----
+So you can use local or multi-account CLI access with OpenAI(include Responses)/Gemini/Claude-compatible clients and SDKs.
 
-## 安装方式概览
+## Sponsor
 
-当前项目适合以下三种安装/运行方式：
+[![z.ai](https://assets.router-for.me/english-5-0.jpg)](https://z.ai/subscribe?ic=8JVLJQFSKB)
 
-1. 直接在本机通过 Go 源码构建运行
-2. 使用 Docker 单容器运行
-3. 在 Android Termux 环境中本地部署
+This project is sponsored by Z.ai, supporting us with their GLM CODING PLAN.
 
-如果你只是想快速启动，优先使用“源码运行”或“Docker 运行”。
+GLM CODING PLAN is a subscription service designed for AI coding, starting at just $10/month. It provides access to their flagship GLM-4.7 & （GLM-5 Only Available  for Pro Users）model across 10+ popular AI coding tools (Claude Code, Cline, Roo Code, etc.), offering developers top-tier, fast, and stable coding experiences.
 
----
-
-## 方式一：源码安装运行（推荐）
-
-### 1. 环境要求
-
-请先安装以下基础环境：
-
-- `Git`
-- `Go 1.26` 或更高版本
-
-可参考项目中的构建配置 [`Meo2cpa/Dockerfile`](Meo2cpa/Dockerfile)，当前镜像构建使用的是 `golang:1.26-alpine`。
-
-### 2. 克隆项目
-
-```bash
-git clone https://github.com/qishiwan16-hub/cpa.git
-cd cpa/Meo2cpa
-```
-
-### 3. 准备配置文件
-
-将模板复制为正式配置：
-
-```bash
-cp config.example.yaml config.yaml
-```
-
-Windows PowerShell 可使用：
-
-```powershell
-Copy-Item .\config.example.yaml .\config.yaml
-```
-
-建议至少修改以下配置项，配置来源见 [`Meo2cpa/config.example.yaml`](Meo2cpa/config.example.yaml)：
-
-- `host`
-- `port`
-- `auth-dir`
-- `api-keys`
-- `remote-management.secret-key`
-- `remote-management.allow-remote`
-- `logging-to-file`
-
-### 4. 下载依赖并构建
-
-```bash
-go mod download
-go build -o meo2cpa ./cmd/server
-```
-
-### 5. 启动服务
-
-```bash
-go run ./cmd/server
-```
-
-或者运行已编译二进制：
-
-```bash
-./meo2cpa
-```
-
-Windows 下：
-
-```powershell
-.\meo2cpa.exe
-```
-
-### 6. 验证是否启动成功
-
-服务默认监听配置文件中的端口，模板默认端口为 `8317`。启动后可访问：
-
-- 首页：`http://127.0.0.1:8317/`
-- 管理接口：`http://127.0.0.1:8317/v0/management/...`
-
-如果启用了管理功能，请确保已经正确设置 [`remote-management.secret-key`](Meo2cpa/config.example.yaml) 对应项。
+Get 10% OFF GLM CODING PLAN：https://z.ai/subscribe?ic=8JVLJQFSKB
 
 ---
 
-## 方式二：Docker 安装运行
+<table>
+<tbody>
+<tr>
+<td width="180"><a href="https://www.packyapi.com/register?aff=cliproxyapi"><img src="./assets/packycode.png" alt="PackyCode" width="150"></a></td>
+<td>Thanks to PackyCode for sponsoring this project! PackyCode is a reliable and efficient API relay service provider, offering relay services for Claude Code, Codex, Gemini, and more. PackyCode provides special discounts for our software users: register using <a href="https://www.packyapi.com/register?aff=cliproxyapi">this link</a> and enter the "cliproxyapi" promo code during recharge to get 10% off.</td>
+</tr>
+<tr>
+<td width="180"><a href="https://www.aicodemirror.com/register?invitecode=TJNAIF"><img src="./assets/aicodemirror.png" alt="AICodeMirror" width="150"></a></td>
+<td>Thanks to AICodeMirror for sponsoring this project! AICodeMirror provides official high-stability relay services for Claude Code / Codex / Gemini CLI, with enterprise-grade concurrency, fast invoicing, and 24/7 dedicated technical support. Claude Code / Codex / Gemini official channels at 38% / 2% / 9% of original price, with extra discounts on top-ups! AICodeMirror offers special benefits for CLIProxyAPI users: register via <a href="https://www.aicodemirror.com/register?invitecode=TJNAIF">this link</a> to enjoy 20% off your first top-up, and enterprise customers can get up to 25% off!</td>
+</tr>
+<tr>
+<td width="180"><a href="https://shop.bmoplus.com/?utm_source=github"><img src="./assets/bmoplus.png" alt="BmoPlus" width="150"></a></td>
+<td>Huge thanks to BmoPlus for sponsoring this project! BmoPlus is a highly reliable AI account provider built strictly for heavy AI users and developers. They offer rock-solid, ready-to-use accounts and official top-up services for ChatGPT Plus / ChatGPT Pro (Full Warranty) / Claude Pro / Super Grok / Gemini Pro. By registering and ordering through <a href="https://shop.bmoplus.com/?utm_source=github">BmoPlus - Premium AI Accounts & Top-ups</a>, users can unlock the mind-blowing rate of <b>10% of the official GPT subscription price (90% OFF)</b>!</td>
+</tr>
+<tr>
+<td width="180"><a href="https://www.lingtrue.com/register"><img src="./assets/lingtrue.png" alt="LingtrueAPI" width="150"></a></td>
+<td>Thanks to LingtrueAPI for its sponsorship of this project! LingtrueAPI is a global large - model API intermediary service platform that provides API calling services for various top - notch models such as Claude Code, Codex, and Gemini. It is committed to enabling users to connect to global AI capabilities at low cost and with high stability. LingtrueAPI offers special discounts to users of this software: register using <a href="https://www.lingtrue.com/register">this link</a>, and enter the promo code "LingtrueAPI" when making the first recharge to enjoy a 10% discount.</td>
+</tr>
+<tr>
+<td width="180"><a href="https://poixe.com/i/m8kvep"><img src="./assets/poixeai.png" alt="PoixeAI" width="150"></a></td>
+<td>Thanks to Poixe AI for sponsoring this project! Poixe AI provides reliable LLM API services. You can leverage the platform's API endpoints to seamlessly build AI-powered products. Additionally, you can become a vendor by providing AI API resources to the platform and earn revenue. Register through the exclusive CLIProxyAPI <a href="https://poixe.com/i/m8kvep">referral link</a> and receive a bonus of $5 USD on your first top-up.</td>
+</tr>
+</tbody>
+</table>
 
-项目已提供 [`Meo2cpa/Dockerfile`](Meo2cpa/Dockerfile) 和 [`Meo2cpa/docker-compose.yml`](Meo2cpa/docker-compose.yml)。
+## Overview
 
-### 1. 进入项目目录
+- OpenAI/Gemini/Claude compatible API endpoints for CLI models
+- OpenAI Codex support (GPT models) via OAuth login
+- Claude Code support via OAuth login
+- iFlow support via OAuth login
+- Amp CLI and IDE extensions support with provider routing
+- Streaming and non-streaming responses
+- Function calling/tools support
+- Multimodal input support (text and images)
+- Multiple accounts with round-robin load balancing (Gemini, OpenAI, Claude and iFlow)
+- Simple CLI authentication flows (Gemini, OpenAI, Claude and iFlow)
+- Generative Language API Key support
+- AI Studio Build multi-account load balancing
+- Gemini CLI multi-account load balancing
+- Claude Code multi-account load balancing
+- iFlow multi-account load balancing
+- OpenAI Codex multi-account load balancing
+- OpenAI-compatible upstream providers via config (e.g., OpenRouter)
+- Reusable Go SDK for embedding the proxy (see `docs/sdk-usage.md`)
 
-```bash
-cd cpa/Meo2cpa
-```
+## Getting Started
 
-### 2. 准备配置与数据目录
+Meo2cpa Guides: [https://help.router-for.me/](https://help.router-for.me/)
 
-确保以下内容存在：
+## Management API
 
-- [`config.yaml`](Meo2cpa/config.example.yaml)（由 `config.example.yaml` 复制得到）
-- `auths/`
-- `logs/`
+see [MANAGEMENT_API.md](https://help.router-for.me/management/api)
 
-示例：
+## Amp CLI Support
 
-```bash
-cp config.example.yaml config.yaml
-mkdir -p auths logs
-```
+Meo2cpa includes integrated support for [Amp CLI](https://ampcode.com) and Amp IDE extensions, enabling you to use your Google/ChatGPT/Claude OAuth subscriptions with Amp's coding tools:
 
-### 3. 使用 Docker Compose 启动
+- Provider route aliases for Amp's API patterns (`/api/provider/{provider}/v1...`)
+- Management proxy for OAuth authentication and account features
+- Smart model fallback with automatic routing
+- **Model mapping** to route unavailable models to alternatives (e.g., `claude-opus-4.5` → `claude-sonnet-4`)
+- Security-first design with localhost-only management endpoints
 
-```bash
-docker compose up -d
-```
+When you need the request/response shape of a specific backend family, use the provider-specific paths instead of the merged `/v1/...` endpoints:
 
-根据 [`Meo2cpa/docker-compose.yml`](Meo2cpa/docker-compose.yml)，默认会：
+- Use `/api/provider/{provider}/v1/messages` for messages-style backends.
+- Use `/api/provider/{provider}/v1beta/models/...` for model-scoped generate endpoints.
+- Use `/api/provider/{provider}/v1/chat/completions` for chat-completions backends.
 
-- 暴露端口 `8317`
-- 将本地 `config.yaml` 挂载到容器内 `/Meo2cpa/config.yaml`
-- 将本地 `auths` 挂载到容器内 `/root/.meo2cpa`
-- 将本地 `logs` 挂载到容器内 `/Meo2cpa/logs`
+These routes help you select the protocol surface, but they do not by themselves guarantee a unique inference executor when the same client-visible model name is reused across multiple backends. Inference routing is still resolved from the request model/alias. For strict backend pinning, use unique aliases, prefixes, or otherwise avoid overlapping client-visible model names.
 
-### 4. 查看日志
+**→ [Complete Amp CLI Integration Guide](https://help.router-for.me/agent-client/amp-cli.html)**
 
-```bash
-docker compose logs -f
-```
+## SDK Docs
 
-### 5. 停止服务
+- Usage: [docs/sdk-usage.md](docs/sdk-usage.md)
+- Advanced (executors & translators): [docs/sdk-advanced.md](docs/sdk-advanced.md)
+- Access: [docs/sdk-access.md](docs/sdk-access.md)
+- Watcher: [docs/sdk-watcher.md](docs/sdk-watcher.md)
+- Custom Provider Example: `examples/custom-provider`
 
-```bash
-docker compose down
-```
+## Contributing
 
----
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 方式三：Termux 安装运行
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-如果你在 Android 手机上部署，可直接参考 [`Meo2cpa/docs/termux-deploy.md`](Meo2cpa/docs/termux-deploy.md)。
+## Who is with us?
 
-这里给出简化步骤：
+Those projects are based on Meo2cpa:
 
-### 1. 安装依赖
+### [vibeproxy](https://github.com/automazeio/vibeproxy)
 
-```bash
-pkg update && pkg upgrade
-pkg install golang git curl jq termux-api termux-services
-```
+Native macOS menu bar app to use your Claude Code & ChatGPT subscriptions with AI coding tools - no API keys needed
 
-### 2. 克隆项目并进入目录
+### [Subtitle Translator](https://github.com/VjayC/SRT-Subtitle-Translator-Validator)
 
-```bash
-git clone https://github.com/qishiwan16-hub/cpa.git
-cd cpa/Meo2cpa
-```
+Browser-based tool to translate SRT subtitles using your Gemini subscription via CLIProxyAPI with automatic validation/error correction - no API keys needed
 
-### 3. 初始化目录
+### [CCS (Claude Code Switch)](https://github.com/kaitranntt/ccs)
 
-```bash
-bash ./scripts/termux-bootstrap.sh
-```
+CLI wrapper for instant switching between multiple Claude accounts and alternative models (Gemini, Codex, Antigravity) via CLIProxyAPI OAuth - no API keys needed
 
-### 4. 一键启动
+### [Quotio](https://github.com/nguyenphutrong/quotio)
 
-```bash
-bash ./scripts/termux-start.sh
-```
+Native macOS menu bar app that unifies Claude, Gemini, OpenAI, and Antigravity subscriptions with real-time quota tracking and smart auto-failover for AI coding tools like Claude Code, OpenCode, and Droid - no API keys needed.
 
-[`Meo2cpa/scripts/termux-start.sh`](Meo2cpa/scripts/termux-start.sh) 现在会自动完成以下准备工作：
+### [CodMate](https://github.com/loocor/CodMate)
 
-- 自动执行 [`Meo2cpa/scripts/termux-bootstrap.sh`](Meo2cpa/scripts/termux-bootstrap.sh) 初始化目录
-- 如果缺少 [`config.yaml`](Meo2cpa/config.example.yaml)，自动从 [`Meo2cpa/config.example.yaml`](Meo2cpa/config.example.yaml) 复制生成
-- 如果缺少可执行二进制，自动调用 [`Meo2cpa/scripts/termux-build.sh`](Meo2cpa/scripts/termux-build.sh) 进行构建
-- 自动创建 `auths`、`logs`、`run`、`panel`、`tmp` 目录
+Native macOS SwiftUI app for managing CLI AI sessions (Codex, Claude Code, Gemini CLI) with unified provider management, Git review, project organization, global search, and terminal integration. Integrates CLIProxyAPI to provide OAuth authentication for Codex, Claude, Gemini, and Antigravity, with built-in and third-party provider rerouting through a single proxy endpoint - no API keys needed for OAuth providers.
 
-也就是说，在依赖已安装完成后，可以直接使用一个命令完成前期准备并启动：
+### [ProxyPilot](https://github.com/Finesssee/ProxyPilot)
 
-```bash
-bash ./scripts/termux-start.sh
-```
+Windows-native CLIProxyAPI fork with TUI, system tray, and multi-provider OAuth for AI coding tools - no API keys needed.
 
-### 5. 状态检查
+### [Claude Proxy VSCode](https://github.com/uzhao/claude-proxy-vscode)
 
-```bash
-bash ./scripts/termux-status.sh
-```
+VSCode extension for quick switching between Claude Code models, featuring integrated CLIProxyAPI as its backend with automatic background lifecycle management.
 
-更多细节请阅读 [`Meo2cpa/docs/termux-deploy.md`](Meo2cpa/docs/termux-deploy.md)。
+### [ZeroLimit](https://github.com/0xtbug/zero-limit)
 
----
+Windows desktop app built with Tauri + React for monitoring AI coding assistant quotas via CLIProxyAPI. Track usage across Gemini, Claude, OpenAI Codex, and Antigravity accounts with real-time dashboard, system tray integration, and one-click proxy control - no API keys needed.
 
-## 常见初始化建议
+### [CPA-XXX Panel](https://github.com/ferretgeek/CPA-X)
 
-首次安装后，建议优先完成以下操作：
+A lightweight web admin panel for CLIProxyAPI with health checks, resource monitoring, real-time logs, auto-update, request statistics and pricing display. Supports one-click installation and systemd service.
 
-1. 修改 [`config.yaml`](Meo2cpa/config.example.yaml) 中的基础监听配置
-2. 设置 `api-keys`
-3. 设置管理密钥 `remote-management.secret-key`
-4. 根据你的部署环境调整 `auth-dir`
-5. 如需本地调试，先将 `host` 设置为 `127.0.0.1`
-6. 如需局域网访问，再改为 `0.0.0.0`
+### [CLIProxyAPI Tray](https://github.com/kitephp/CLIProxyAPI_Tray)
 
----
+A Windows tray application implemented using PowerShell scripts, without relying on any third-party libraries. The main features include: automatic creation of shortcuts, silent running, password management, channel switching (Main / Plus), and automatic downloading and updating.
 
-## 相关文件说明
+### [霖君](https://github.com/wangdabaoqq/LinJun)
 
-- 项目主目录：[`Meo2cpa/`](Meo2cpa/)
-- 启动入口：[`Meo2cpa/cmd/server/main.go`](Meo2cpa/cmd/server/main.go)
-- 配置模板：[`Meo2cpa/config.example.yaml`](Meo2cpa/config.example.yaml)
-- Docker 配置：[`Meo2cpa/docker-compose.yml`](Meo2cpa/docker-compose.yml)
-- Docker 镜像构建：[`Meo2cpa/Dockerfile`](Meo2cpa/Dockerfile)
-- Termux 部署文档：[`Meo2cpa/docs/termux-deploy.md`](Meo2cpa/docs/termux-deploy.md)
-- 项目详细说明：[`Meo2cpa/README.md`](Meo2cpa/README.md)
+霖君 is a cross-platform desktop application for managing AI programming assistants, supporting macOS, Windows, and Linux systems. Unified management of Claude Code, Gemini CLI, OpenAI Codex, and other AI coding tools, with local proxy for multi-account quota tracking and one-click configuration.
 
----
+### [CLIProxyAPI Dashboard](https://github.com/itsmylife44/cliproxyapi-dashboard)
 
-## 补充说明
+A modern web-based management dashboard for CLIProxyAPI built with Next.js, React, and PostgreSQL. Features real-time log streaming, structured configuration editing, API key management, OAuth provider integration for Claude/Gemini/Codex, usage analytics, container management, and config sync with OpenCode via companion plugin - no manual YAML editing needed.
 
-当前这个根目录 [`README.md`](README.md) 主要面向中文安装说明；更完整的项目功能介绍、SDK 文档入口和多语言说明位于 [`Meo2cpa/README.md`](Meo2cpa/README.md)、[`Meo2cpa/README_CN.md`](Meo2cpa/README_CN.md)、[`Meo2cpa/README_JA.md`](Meo2cpa/README_JA.md)。
+### [All API Hub](https://github.com/qixing-jk/all-api-hub)
+
+Browser extension for one-stop management of New API-compatible relay site accounts, featuring balance and usage dashboards, auto check-in, one-click key export to common apps, in-page API availability testing, and channel/model sync and redirection. It integrates with CLIProxyAPI through the Management API for one-click provider import and config sync.
+
+### [Shadow AI](https://github.com/HEUDavid/shadow-ai)
+
+Shadow AI is an AI assistant tool designed specifically for restricted environments. It provides a stealthy operation
+mode without windows or traces, and enables cross-device AI Q&A interaction and control via the local area network (
+LAN). Essentially, it is an automated collaboration layer of "screen/audio capture + AI inference + low-friction delivery",
+helping users to immersively use AI assistants across applications on controlled devices or in restricted environments.
+
+### [ProxyPal](https://github.com/buddingnewinsights/proxypal)
+
+Cross-platform desktop app (macOS, Windows, Linux) wrapping CLIProxyAPI with a native GUI. Connects Claude, ChatGPT, Gemini, GitHub Copilot, iFlow, and custom OpenAI-compatible endpoints with usage analytics, request monitoring, and auto-configuration for popular coding tools - no API keys needed.
+
+### [CLIProxyAPI Quota Inspector](https://github.com/AllenReder/CLIProxyAPI-Quota-Inspector)
+
+Ready-to-use cross-platform quota inspector for CLIProxyAPI, supporting per-account codex 5h/7d quota windows, plan-based sorting, status coloring, and multi-account summary analytics.
+
+> [!NOTE]  
+> If you developed a project based on Meo2cpa, please open a PR to add it to this list.
+
+## More choices
+
+Those projects are ports of Meo2cpa or inspired by it:
+
+### [9Router](https://github.com/decolua/9router)
+
+A Next.js implementation inspired by CLIProxyAPI, easy to install and use, built from scratch with format translation (OpenAI/Claude/Gemini/Ollama), combo system with auto-fallback, multi-account management with exponential backoff, a Next.js web dashboard, and support for CLI tools (Cursor, Claude Code, Cline, RooCode) - no API keys needed.
+
+### [OmniRoute](https://github.com/diegosouzapw/OmniRoute)
+
+Never stop coding. Smart routing to FREE & low-cost AI models with automatic fallback.
+
+OmniRoute is an AI gateway for multi-provider LLMs: an OpenAI-compatible endpoint with smart routing, load balancing, retries, and fallbacks. Add policies, rate limits, caching, and observability for reliable, cost-aware inference.
+
+> [!NOTE]  
+> If you have developed a port of Meo2cpa or a project inspired by it, please open a PR to add it to this list.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -1,147 +1,58 @@
-# codex Steering Prompt：全局任务流程与变更记录强制规范
+# AGENTS.md
 
-你是一个严格执行流程与可追溯记录的任务管理与执行助手。
-你必须确保所有任务均遵循以下全局规范，并将变更记录持久化保存。
+Go 1.26+ proxy server providing OpenAI/Gemini/Claude/Codex compatible APIs with OAuth and round-robin load balancing.
 
-────────────────────
-一、全局适用范围
-────────────────────
+## Repository
+- GitHub: https://github.com/router-for-me/Meo2cpa
 
-- 本规范适用于所有项目、所有任务、所有修改行为
-- 无例外、无跳过、无简化流程
-- 只要任务存在，即默认启用本 Steering 规则
+## Commands
+```bash
+gofmt -w . # Format (required after Go changes)
+go build -o meo2cpa ./cmd/server # Build
+go run ./cmd/server # Run dev server
+go test ./... # Run all tests
+go test -v -run TestName ./path/to/pkg # Run single test
+go build -o test-output ./cmd/server && rm test-output # Verify compile (REQUIRED after changes)
+```
+- Common flags: `--config <path>`, `--tui`, `--standalone`, `--local-model`, `--no-browser`, `--oauth-callback-port <port>`
 
-────────────────────
-二、统一时区与时间精度（强制）
-────────────────────
+## Config
+- Default config: `config.yaml` (template: `config.example.yaml`)
+- `.env` is auto-loaded from the working directory
+- Auth material defaults under `auths/`
+- Storage backends: file-based default; optional Postgres/git/object store (`PGSTORE_*`, `GITSTORE_*`, `OBJECTSTORE_*`)
 
-- 时区：中国北京（UTC+8）
-- 时间精度：精确到分钟
-- 禁止使用模糊时间、相对时间或其他时区
+## Architecture
+- `cmd/server/` — Server entrypoint
+- `internal/api/` — Gin HTTP API (routes, middleware, modules)
+- `internal/api/modules/amp/` — Amp integration (Amp-style routes + reverse proxy)
+- `internal/thinking/` — Main thinking/reasoning pipeline. `ApplyThinking()` (apply.go) parses suffixes (`suffix.go`, suffix overrides body), normalizes config to canonical `ThinkingConfig` (`types.go`), normalizes and validates centrally (`validate.go`/`convert.go`), then applies provider-specific output via `ProviderApplier`. Do not break this "canonical representation → per-provider translation" architecture.
+- `internal/runtime/executor/` — Per-provider runtime executors (incl. Codex WebSocket)
+- `internal/translator/` — Provider protocol translators (and shared `common`)
+- `internal/registry/` — Model registry + remote updater (`StartModelsUpdater`); `--local-model` disables remote updates
+- `internal/store/` — Storage implementations and secret resolution
+- `internal/managementasset/` — Config snapshots and management assets
+- `internal/cache/` — Request signature caching
+- `internal/watcher/` — Config hot-reload and watchers
+- `internal/wsrelay/` — WebSocket relay sessions
+- `internal/usage/` — Usage and token accounting
+- `internal/tui/` — Bubbletea terminal UI (`--tui`, `--standalone`)
+- `sdk/cliproxy/` — Embeddable SDK entry (service/builder/watchers/pipeline)
+- `test/` — Cross-module integration tests
 
-统一时间格式如下：
-
-YYYY-MM-DD HH:mm（北京时间 UTC+8）
-
-────────────────────
-三、全局任务执行总流程（不可跳过）
-────────────────────
-
-所有任务必须严格按顺序执行以下四个阶段：
-
-1）需求梳理与规划
-- 明确任务目标
-- 明确影响范围
-- 明确完成标准（Done Definition）
-
-2）任务拆分与执行
-- 将任务拆分为最小可执行单元
-- 每个子任务必须可独立完成与验证
-
-3）检查与修复
-- 对执行结果进行自检
-- 修复发现的问题
-- 补充遗漏项
-
-4）记录与归档（强制）
-- 更新变更记录
-- 标记任务完成
-- 确保结果可回溯
-
-────────────────────
-四、任务完成判定规则（Done Gate）
-────────────────────
-
-一个任务只有在同时满足以下全部条件时，才允许被视为完成：
-
-- 任务目标已达成
-- 不存在已知未修复问题
-- 已写变更记录并成功保存到文件
-- 变更记录时间符合本规范
-
-未满足任意一条，任务一律视为“未完成”。
-
-────────────────────
-五、变更记录（强制持久化）
-────────────────────
-
-5.1 记录文件位置（强制）
-
-- 所有变更记录必须保存到：  
-  当前项目根目录下的「记录.md」文件
-- 如果「记录.md」不存在，必须先创建该文件
-- 不允许只在对话、内存或临时文本中记录
-
-文件路径规则：
-- 默认路径：./记录.md
-- 以当前项目目录为基准
-
-────────────────────
-5.2 记录时机（When）
-────────────────────
-
-以下情况必须写入「记录.md」：
-
-- 每完成一个任务
-- 每一次实质性修改
-- 每一次修复
-- 每一次行为或逻辑更新
-
-────────────────────
-5.3 记录内容（What）
-────────────────────
-
-每一条记录必须完整包含以下四项，缺一不可：
-
-1. 任务
-2. 改了什么
-3. 修复了什么
-4. 更新了什么
-
-────────────────────
-5.4 记录写入模板（必须原样使用）
-────────────────────
-
-写入到「记录.md」中的内容格式如下：
-
-## YYYY-MM-DD HH:mm（北京时间 UTC+8）
-
-- 任务：TASK-ID / 任务名称
-- 改了什么：
-  -
-- 修复了什么：
-  -
-- 更新了什么：
-  -
-
-────────────────────
-六、明确禁止的行为
-────────────────────
-
-以下行为明确禁止，不得发生：
-
-- 完成任务但未向「记录.md」写入记录
-- 合并多个任务只写一条记录
-- 使用模糊描述（如“少量修改”“简单优化”“调整一下”等）
-- 使用非北京时间或非分钟级时间
-- 事后补写、回忆式记录
-- 将记录写在其他文件而非「记录.md」
-
-────────────────────
-七、执行原则（必须遵守）
-────────────────────
-
-- 修改即记录，不依赖记忆
-- 记录应面向未来的自己或他人
-- 记录优先于速度，清晰高于简洁
-- 记录必须真实、即时、可追溯
-
-────────────────────
-八、最终强制性结论
-────────────────────
-
-没有写入「记录.md」的任务，不存在  
-没有时间戳的修改，不可信  
-没有可追溯记录的完成，不被承认  
-
-你必须在所有任务管理、执行、总结与完成判定中，严格遵循以上规则。
+## Code Conventions
+- Keep changes small and simple (KISS)
+- Comments in English only
+- If editing code that already contains non-English comments, translate them to English (don’t add new non-English comments)
+- For user-visible strings, keep the existing language used in that file/area
+- New Markdown docs should be in English unless the file is explicitly language-specific (e.g. `README_CN.md`)
+- As a rule, do not make standalone changes to `internal/translator/`. You may modify it only as part of broader changes elsewhere.
+- If a task requires changing only `internal/translator/`, run `gh repo view --json viewerPermission -q .viewerPermission` to confirm you have `WRITE`, `MAINTAIN`, or `ADMIN`. If you do, you may proceed; otherwise, file a GitHub issue including the goal, rationale, and the intended implementation code, then stop further work.
+- `internal/runtime/executor/` should contain executors and their unit tests only. Place any helper/supporting files under `internal/runtime/executor/helps/`.
+- Follow `gofmt`; keep imports goimports-style; wrap errors with context where helpful
+- Do not use `log.Fatal`/`log.Fatalf` (terminates the process); prefer returning errors and logging via logrus
+- Shadowed variables: use method suffix (`errStart := server.Start()`)
+- Wrap defer errors: `defer func() { if err := f.Close(); err != nil { log.Errorf(...) } }()`
+- Use logrus structured logging; avoid leaking secrets/tokens in logs
+- Avoid panics in HTTP handlers; prefer logged errors and meaningful HTTP status codes
+- Timeouts are allowed only during credential acquisition; after an upstream connection is established, do not set timeouts for any subsequent network behavior. Intentional exceptions that must remain allowed are the Codex websocket liveness deadlines in `internal/runtime/executor/codex_websockets_executor.go`, the wsrelay session deadlines in `internal/wsrelay/session.go`, the management APICall timeout in `internal/api/handlers/management/api_tools.go`, and the `cmd/fetch_antigravity_models` utility timeouts
