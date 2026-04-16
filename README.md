@@ -178,19 +178,26 @@ cd cpa/Meo2cpa
 bash ./scripts/termux-bootstrap.sh
 ```
 
-### 4. 构建
-
-```bash
-bash ./scripts/termux-build.sh
-```
-
-### 5. 启动
+### 4. 一键启动
 
 ```bash
 bash ./scripts/termux-start.sh
 ```
 
-### 6. 状态检查
+[`Meo2cpa/scripts/termux-start.sh`](Meo2cpa/scripts/termux-start.sh) 现在会自动完成以下准备工作：
+
+- 自动执行 [`Meo2cpa/scripts/termux-bootstrap.sh`](Meo2cpa/scripts/termux-bootstrap.sh) 初始化目录
+- 如果缺少 [`config.yaml`](Meo2cpa/config.example.yaml)，自动从 [`Meo2cpa/config.example.yaml`](Meo2cpa/config.example.yaml) 复制生成
+- 如果缺少可执行二进制，自动调用 [`Meo2cpa/scripts/termux-build.sh`](Meo2cpa/scripts/termux-build.sh) 进行构建
+- 自动创建 `auths`、`logs`、`run`、`panel`、`tmp` 目录
+
+也就是说，在依赖已安装完成后，可以直接使用一个命令完成前期准备并启动：
+
+```bash
+bash ./scripts/termux-start.sh
+```
+
+### 5. 状态检查
 
 ```bash
 bash ./scripts/termux-status.sh

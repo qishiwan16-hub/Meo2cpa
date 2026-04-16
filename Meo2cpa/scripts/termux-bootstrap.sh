@@ -33,8 +33,6 @@ PREFIX=${PREFIX_DIR}
 Suggested next steps:
   1. pkg update && pkg upgrade
   2. pkg install golang git curl jq termux-api termux-services
-  3. cp ./config.example.yaml ./config.yaml
-  4. bash ./scripts/termux-build.sh
-  5. bash ./scripts/termux-start.sh
-  6. bash ./scripts/termux-status.sh
+  3. bash ./scripts/termux-start.sh
+  4. bash ./scripts/termux-status.sh
 EOF
