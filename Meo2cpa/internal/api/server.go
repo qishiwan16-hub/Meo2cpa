@@ -355,12 +355,23 @@ func (s *Server) setupRoutes() {
 
 	// Root endpoint
 	s.engine.GET("/", func(c *gin.Context) {
+		if s.shouldServeManagementControlPanel() {
+			s.serveManagementControlPanel(c)
+			return
+		}
+
 		c.JSON(http.StatusOK, gin.H{
 			"message": "CLI Proxy API Server",
 			"endpoints": []string{
 				"POST /v1/chat/completions",
 				"POST /v1/completions",
 				"GET /v1/models",
+				"GET /management.html",
+			},
+			"management": gin.H{
+				"enabled":          s.managementRoutesEnabled.Load(),
+				"panel":            "/management.html",
+				"root_serves_panel": true,
 			},
 		})
 	})
@@ -492,6 +503,8 @@ func (s *Server) registerManagementRoutes() {
 	mgmt := s.engine.Group("/v0/management")
 	mgmt.Use(s.managementAvailabilityMiddleware(), s.mgmt.Middleware())
 	{
+		mgmt.GET("", s.mgmt.GetConfig)
+		mgmt.GET("/", s.mgmt.GetConfig)
 		mgmt.GET("/usage", s.mgmt.GetUsageStatistics)
 		mgmt.GET("/usage/export", s.mgmt.ExportUsageStatistics)
 		mgmt.POST("/usage/import", s.mgmt.ImportUsageStatistics)
@@ -656,6 +669,20 @@ func (s *Server) managementAvailabilityMiddleware() gin.HandlerFunc {
 		}
 		c.Next()
 	}
+}
+
+func (s *Server) shouldServeManagementControlPanel() bool {
+	cfg := s.cfg
+	if cfg == nil {
+		return false
+	}
+	if cfg.RemoteManagement.DisableControlPanel {
+		return false
+	}
+	if !s.managementRoutesEnabled.Load() {
+		return false
+	}
+	return true
 }
 
 func (s *Server) serveManagementControlPanel(c *gin.Context) {
