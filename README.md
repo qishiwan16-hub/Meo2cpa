@@ -52,33 +52,23 @@ bash ./scripts/termux-bootstrap.sh
 bash ./scripts/termux-start.sh
 ```
 
-这条命令现在只负责启动。
+这条命令现在只负责启动，并且是**前台运行**。
 
 启动后默认访问地址：
 
 - 服务地址：`http://127.0.0.1:8317`
 - 管理首页：`http://127.0.0.1:8317/`
 
-## 查看状态
-
-```bash
-bash ./scripts/termux-status.sh
-```
-
 ## 停止运行
 
-如果你是前台运行，直接按 `Ctrl+C`。
-
-如果你是脚本后台启动，执行：
-
-```bash
-bash ./scripts/termux-stop.sh
-```
+启动后直接按 `Ctrl+C`，项目就会立即停止。
 
 ## 一键重启
 
+先按 `Ctrl+C` 停掉当前进程，再重新执行：
+
 ```bash
-bash ./scripts/termux-restart.sh
+bash ./scripts/termux-start.sh
 ```
 
 ## 一键更新
@@ -86,7 +76,7 @@ bash ./scripts/termux-restart.sh
 先进入项目目录，再执行：
 
 ```bash
-git pull && cp -n config.example.yaml config.yaml && bash ./scripts/termux-build.sh && bash ./scripts/termux-restart.sh
+git pull && cp -n config.example.yaml config.yaml && bash ./scripts/termux-build.sh
 ```
 
 这条命令会自动完成：
@@ -94,7 +84,8 @@ git pull && cp -n config.example.yaml config.yaml && bash ./scripts/termux-build
 - 拉取最新代码
 - 如果本地没有 [`config.yaml`](config.yaml) 就自动补一个
 - 重新构建
-- 重启服务
+
+更新完成后，手动执行 [`scripts/termux-start.sh`](scripts/termux-start.sh) 启动，停止时直接按 `Ctrl+C`。
 
 ## 真正最少命令
 
@@ -113,13 +104,13 @@ cd Meo2cpa && bash ./scripts/termux-start.sh
 ### 更新
 
 ```bash
-cd Meo2cpa && git pull && cp -n config.example.yaml config.yaml && bash ./scripts/termux-build.sh && bash ./scripts/termux-restart.sh
+cd Meo2cpa && git pull && cp -n config.example.yaml config.yaml && bash ./scripts/termux-build.sh
 ```
 
 ## 现在的规则很简单
 
 - [`scripts/termux-bootstrap.sh`](scripts/termux-bootstrap.sh)：只负责安装
-- [`scripts/termux-start.sh`](scripts/termux-start.sh)：只负责启动
-- 停止前台运行：`Ctrl+C`
+- [`scripts/termux-start.sh`](scripts/termux-start.sh)：只负责前台启动
+- 停止运行：`Ctrl+C`
 
 这次文档已经把“仓库还没拉下来”这一步补上了。

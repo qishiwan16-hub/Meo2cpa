@@ -9,10 +9,6 @@ LOG_PATH="${MEO2CPA_LOG_PATH:-${ROOT_DIR}/logs}"
 RUN_PATH="${MEO2CPA_RUN_PATH:-${ROOT_DIR}/run}"
 PANEL_PATH="${MEO2CPA_PANEL_PATH:-${ROOT_DIR}/panel}"
 TMP_PATH="${MEO2CPA_TMP_PATH:-${ROOT_DIR}/tmp}"
-PID_FILE="${RUN_PATH}/meo2cpa.pid"
-STDOUT_LOG="${LOG_PATH}/meo2cpa.out.log"
-STDERR_LOG="${LOG_PATH}/meo2cpa.err.log"
-
 mkdir -p "${AUTH_PATH}" "${LOG_PATH}" "${RUN_PATH}" "${PANEL_PATH}" "${TMP_PATH}"
 
 if [[ ! -f "${CONFIG_PATH}" ]]; then
@@ -27,27 +23,14 @@ if [[ ! -x "${BIN_PATH}" ]]; then
   exit 1
 fi
 
-if [[ -f "${PID_FILE}" ]]; then
-  EXISTING_PID="$(cat "${PID_FILE}")"
-  if [[ -n "${EXISTING_PID}" ]] && kill -0 "${EXISTING_PID}" 2>/dev/null; then
-    echo "Meo2cpa is already running with PID ${EXISTING_PID}"
-    exit 0
-  fi
-  rm -f "${PID_FILE}"
-fi
-
 export WRITABLE_PATH="${PANEL_PATH}"
 export MEO2CPA_ROOT="${ROOT_DIR}"
 export MEO2CPA_PROJECT_ROOT="${ROOT_DIR}"
 export MEO2CPA_PANEL_PATH="${PANEL_PATH}"
 export TMPDIR="${TMP_PATH}"
 
-nohup "${BIN_PATH}" --config "${CONFIG_PATH}" >"${STDOUT_LOG}" 2>"${STDERR_LOG}" &
-NEW_PID=$!
-echo "${NEW_PID}" > "${PID_FILE}"
-
-echo "Meo2cpa started with PID ${NEW_PID}"
+echo "Meo2cpa starting in foreground"
 echo "config: ${CONFIG_PATH}"
-echo "stdout: ${STDOUT_LOG}"
-echo "stderr: ${STDERR_LOG}"
-echo "status: bash ./scripts/termux-status.sh"
+echo "stop: Ctrl+C"
+
+exec "${BIN_PATH}" --config "${CONFIG_PATH}"
